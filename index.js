@@ -111,11 +111,11 @@
 
 // ----------------------------------------------------
 // 10. What happens when we do this?
-function bark() {
-  console.log('Woof!');
-}
+// function bark() {
+//   console.log('Woof!');
+// }
 
-bark.animal = 'dog';
+// bark.animal = 'dog';
 // Nothing, this is totally fine!
 // This is possible in JavaScript, because *****(functions are objects!)***** (Everything besides primitive types are objects)
 // A *****(function is a special type of object)*****. The code you write yourself isn't the actual function. The function is an object with properties. 
@@ -124,14 +124,170 @@ bark.animal = 'dog';
 
 // ----------------------------------------------------
 // 11. What's the output?
-function Person(firstName, lastName) {
-  this.firstName = firstName;
-  this.lastName = lastName;
+// function Person(firstName, lastName) {
+//   this.firstName = firstName;
+//   this.lastName = lastName;
+// }
+
+// const member = new Person('Lydia', 'Hallie');
+// Person.getFullName = function() {
+//   return `${this.firstName} ${this.lastName}`;
+// };
+
+// console.log(member.getFullName());
+
+
+// ----------------------------------------------------
+// 11. What's the output?
+// function Person(firstName, lastName) {
+//   this.firstName = firstName;
+//   this.lastName = lastName;
+// }
+
+// const member = new Person('Lydia', 'Hallie');
+// // In JavaScript, when you create an instance using the new keyword, it creates an object with a prototype link to 
+// // the constructor function's prototype. If you add a method to the constructor function after creating an instance, that method won't 
+// // be available on the existing instances.
+// Person.getFullName = function() {
+//   return `${this.firstName} ${this.lastName}`;
+// };
+
+// // fixing and adding prototype it will fix the error
+// Person.prototype.getFullName = function(){
+//   return `${this.firstName} ${this.lastName}`
+// }
+
+// console.log(member.getFullName());   // it will throw a error TypeError
+
+
+// ----------------------------------------------------
+// 12. What's the output?
+// function Person(firstName, lastName) {
+//   this.firstName = firstName;
+//   this.lastName = lastName;
+// }
+
+// const lydia = new Person('Lydia', 'Hallie');
+// const sarah = Person('Sarah', 'Smith');
+
+// console.log(lydia);  // Lydia Hallie
+// console.log(sarah);  // undefined
+
+// When a constructor is invoked with new, it creates a new object and sets this to that object. In the case of sarah, 
+// since new is not used, this refers to the global object (or undefined in strict mode). 
+// As a result, sarah does not become a Person instance, and its properties are not assigned to a new object. Therefore, 
+// when you try to log sarah, it will be undefined.
+
+
+// ----------------------------------------------------
+// 13. What are the three phases of event propagation?
+// A: Target > Capturing > Bubbling
+// B: Bubbling > Target > Capturing
+// C: Target > Bubbling > Capturing
+// D: Capturing > Target > Bubbling
+// Answer
+// Answer: D
+// During the capturing phase, the event goes through the ancestor elements down to the target element. It then reaches the target element, and bubbling begins.
+
+
+// ----------------------------------------------------
+// 14 All object have prototypes.
+// A: true
+// // B: false  ---> false
+// All objects have prototypes, except for the base object. The base object is the object created by the user, or an object that is created using the new keyword. 
+// The base object has access to some methods and properties, such as .toString. This is the reason why you can use built-in JavaScript methods! 
+// All of such methods are available on the prototype. Although JavaScript can't find it directly on your object, it goes down the prototype chain 
+// and finds it there, which makes it accessible for you.
+
+
+// ----------------------------------------------------
+// 15. What's the output?
+function sum(a, b) {
+  return a + b;
 }
 
-const member = new Person('Lydia', 'Hallie');
-Person.getFullName = function() {
-  return `${this.firstName} ${this.lastName}`;
-};
+sum(1, '2');  // ---> "12" / 12
+// During the addition of a numeric type (1) and a string type ('2'), the number is treated as a string. We can concatenate strings like
+//  "Hello" + "World", so what's happening here is "1" + "2" which returns "12".
 
-console.log(member.getFullName());
+
+// ----------------------------------------------------
+// 16. What's the output?
+// let number = 0;
+// console.log(number++);  // 0 
+// console.log(++number);  // 2
+// console.log(number);    // 2 
+
+// The postfix unary operator ++:
+// Returns the value (this returns 0)
+// Increments the value (number is now 1)
+
+// The prefix unary operator ++:
+// Increments the value (number is now 2)
+// Returns the value (this returns 2)
+// This returns 0 2 2.
+
+
+// ----------------------------------------------------
+// 17. What's the output?
+// function getPersonInfo(one, two, three) {
+//   console.log(one);
+//   console.log(two);
+//   console.log(three);
+// }
+
+// const person = 'Lydia';
+// const age = 21;
+
+getPersonInfo`${person} is ${age} years old`;  // tagged tmeplate literal convert into array of string ["" , " is " , "years old"] Additionally, the values of person and age are logged:
+
+// If you use tagged template literals, the value of the first argument is always an array of the string values. 
+// The remaining arguments get the values of the passed expressions!
+
+
+// ----------------------------------------------------
+// 18. What's the output?
+// function checkAge(data) {
+//   if (data === { age: 18 }) {  // This condition will always return 'false' since JavaScript compares objects by reference, not value.
+//     console.log('You are an adult!');
+//   } else if (data == { age: 18 }) {  // 
+//     console.log('You are still an adult.');
+//   } else {
+//     console.log(`Hmm.. You don't have an age I guess`);
+//   }
+// }
+
+// checkAge({ age: 18 });
+
+// When testing equality, primitives are compared by their value, while objects are compared by their reference. 
+// JavaScript checks if the objects have a reference to the same location in memory.
+
+// The two objects that we are comparing don't have that: the object we passed as a parameter refers to a different location i
+// n memory than the object we used in order to check equality.
+
+
+// ----------------------------------------------------
+// 19. What's the output?
+// function getAge(...args) {
+//   console.log(typeof args);  // object
+// }
+
+// getAge(21);
+// The rest parameter (...args) lets us "collect" all remaining arguments into an array. An array is an object, so typeof args returns "object"
+
+
+// ----------------------------------------------------
+// 20. What's the output?
+// function getAge() {
+//   'use strict';
+//   age = 21;
+//   console.log(age);  // ReferenceError Error wether use "use strict"
+// }
+
+// getAge();
+// With "use strict", you can make sure that you don't accidentally declare global variables. We never declared the variable age,
+// and since we use "use strict", it will throw a reference error. If we didn't use "use strict", it would have worked, since the 
+// property age would have gotten added to the global object.
+
+
+// ----------------------------------------------------
