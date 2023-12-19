@@ -436,3 +436,148 @@ console.log(obj);
 
 
 // ----------------------------------------------------
+// 31. What is the event.target when clicking the button?
+{/* <div onclick="console.log('first div')">
+  <div onclick="console.log('second div')">
+    <button onclick="console.log('button')">
+      Click!
+    </button>
+  </div>
+</div> */}
+
+// amswer ----> button ----> second ---> first
+// The deepest nested element that caused the event is the target of the event. You can stop bubbling by event.stopPropagation
+
+
+// ----------------------------------------------------
+// 32. When you click the paragraph, what's the logged output?
+// <div onclick="console.log('div')">
+//   <p onclick="console.log('p')">
+//     Click here!
+//   </p>
+// </div>
+// A: p div    ----> answer
+// B: div p
+// C: p
+// D: div
+// If we click p, we see two logs: p and div. During event propagation, there are 3 phases: capturing, target, and bubbling. 
+// By default, event handlers are executed in the bubbling phase (unless you set useCapture to true). It goes from the deepest nested element outwards.
+
+
+// ----------------------------------------------------
+//33. What's the output?
+// const person = { name: 'Lydia' };
+
+// function sayHi(age) {
+//   return `${this.name} is ${age}`;
+// }
+
+// console.log(sayHi.call(person, 21));
+// console.log(sayHi.bind(person, 21));
+// A: undefined is 21 Lydia is 21
+// B: function function
+// C: Lydia is 21 Lydia is 21
+// D: Lydia is 21 function   ----> answer
+ 
+// With both, we can pass the object to which we want the this keyword to refer to. However, .call is also executed immediately!
+// .bind. returns a copy of the function, but with a bound context! It is not executed immediately.
+
+
+// ----------------------------------------------------
+// 34. What's the output?
+// function sayHi() {
+//   return (() => 0)();
+// }
+
+// console.log(typeof sayHi());        //  ---> number
+
+// The sayHi function returns the returned value of the immediately invoked function expression (IIFE). This function returned 0, which is type "number".
+// FYI: typeof can return the following list of values: undefined, boolean, number, bigint, string, symbol, function and object. Note that typeof null returns "object".
+
+
+// ----------------------------------------------------
+// 35. Which of these values are falsy?
+// 0;
+// new Number(0);
+// ('');
+// (' ');
+// new Boolean(false);
+// undefined;
+// A: 0, '', undefined    ----> answer
+
+// There are 8 falsy values:
+// undefined
+// null
+// NaN
+// false
+// '' (empty string)
+// 0
+// -0
+// 0n (BigInt(0))
+// Function constructors, like new Number and new Boolean are truthy.
+
+
+// ----------------------------------------------------
+// 36. What's the output?
+// console.log(typeof typeof 1);
+// A: "number"
+// B: "string"    ---> answer
+// C: "object"
+// D: "undefined"
+
+// typeof 1 returns "number". typeof "number" returns "string"
+
+
+// ----------------------------------------------------
+// 37. What's the output?
+// const numbers = [1, 2, 3];
+// numbers[10] = 11;
+// console.log(numbers);
+// A: [1, 2, 3, null x 7, 11]
+// B: [1, 2, 3, 11]
+// C: [1, 2, 3, empty x 7, 11]  ------> answer
+// D: SyntaxError
+
+// When you set a value to an element in an array that exceeds the length of the array, JavaScript creates something called "empty slots". 
+// These actually have the value of undefined, but you will see something like:
+// [1, 2, 3, empty x 7, 11] depending on where you run it (it's different for every browser, node, etc.)
+
+
+// ----------------------------------------------------
+// 38. What's the output?
+(() => {
+  let x, y;
+  try {
+    throw new Error();
+  } catch (x) {
+    (x = 1), (y = 2);
+    console.log(x);
+  }
+  console.log(x);
+  console.log(y);
+})();
+// A: 1 undefined 2        ------> answer
+// B: undefined undefined undefined
+// C: 1 1 2
+// D: 1 undefined undefined
+
+// The catch block receives the argument x. This is not the same x as the variable when we pass arguments. This variable x is block-scoped.
+// Later, we set this block-scoped variable equal to 1, and set the value of the variable y. Now, we log the block-scoped variable x, which is equal to 1.
+// Outside of the catch block, x is still undefined, and y is 2. When we want to console.log(x) outside of the catch block, it returns undefined, and y returns 2.
+
+
+// ----------------------------------------------------
+// 40. What's the output?
+[[0, 1], [2, 3]].reduce(
+  (acc, cur) => {
+    return acc.concat(cur);
+  },
+  [1, 2], // ---> initial value of array 
+);
+// A: [0, 1, 2, 3, 1, 2]
+// B: [6, 1, 2]
+// C: [1, 2, 0, 1, 2, 3]   ----> answer
+// D: [1, 2, 6]
+
+// [1, 2] is our initial value. This is the value we start with, and the value of the very first acc. During the first round, acc is [1,2], and cur is [0, 1]. 
+// We concatenate them, which results in [1, 2, 0, 1].Then, [1, 2, 0, 1] is acc and [2, 3] is cur. We concatenate them, and get [1, 2, 0, 1, 2, 3]
