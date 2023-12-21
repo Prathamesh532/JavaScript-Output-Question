@@ -568,12 +568,12 @@ console.log(obj);
 
 // ----------------------------------------------------
 // 40. What's the output?
-[[0, 1], [2, 3]].reduce(
-  (acc, cur) => {
-    return acc.concat(cur);
-  },
-  [1, 2], // ---> initial value of array 
-);
+// [[0, 1], [2, 3]].reduce(
+//   (acc, cur) => {
+//     return acc.concat(cur);
+//   },
+//   [1, 2], // ---> initial value of array 
+// );
 // A: [0, 1, 2, 3, 1, 2]
 // B: [6, 1, 2]
 // C: [1, 2, 0, 1, 2, 3]   ----> answer
@@ -617,18 +617,18 @@ console.log(obj);
 
 // ----------------------------------------------------
 // 44. What's the output?
-function* generator(i) {
-  yield i;
-  yield i * 2;
-}
+// function* generator(i) {
+//   yield i;
+//   yield i * 2;
+// }
 
-const gen = generator(10);
+// const gen = generator(10);
 
-console.log(gen.next().value);
-console.log(gen.next().value);
+// console.log(gen.next().value);  // ----> 10 , 20
+// console.log(gen.next().value);
 // A: [0, 10], [10, 20]
 // B: 20, 20
-// C: 10, 20
+// C: 10, 20   ----> answer 
 // D: 0, 10 and 10, 20
 // Answer
 // Answer: C
@@ -666,11 +666,17 @@ console.log(gen.next().value);
 
 // ----------------------------------------------------
 // 46. What's the output?
-let person = { name: 'Lydia' };
-const members = [person];
-person = null;
+// let person = { name: 'Lydia' };
+// const members = [person];   //// -----> [{name: "Lydia"}]
+// person = null;
+// console.log(person)    /// ----> null
+// console.log(members); 
 
-console.log(members);
+// let person = { name: 'Lydia' };
+// person = null;
+// const members = [person];   //// -----> [null]
+// console.log(person)
+// console.log(members); 
 // A: null
 // B: [null]
 // C: [{}]
@@ -723,13 +729,12 @@ console.log(members);
 
 // ----------------------------------------------------
 // 49. What's the value of num?
-const num = parseInt('7*6', 10);
-A: 42
-B: "42"
-C: 7
-D: NaN
-Answer
-Answer: C
+const num = parseInt('7*6', 10);   // ------> start with 7 and * encounter its stop and take only 7 , 2nd args is base 
+// A: 42
+// B: "42"
+// C: 7   -----> answer 
+// D: NaN
+
 // Only the first numbers in the string is returned. Based on the radix (the second argument in order to specify what type of number we want to parse it to: 
 // base 10, hexadecimal, octal, binary, etc.), the parseInt checks whether the characters in the string are valid. Once it encounters a character that isn't a
 // valid number in the radix, it stops parsing and ignores the following characters.
@@ -738,10 +743,10 @@ Answer: C
 
 // ----------------------------------------------------
 // 50. What's the output?
-[1, 2, 3].map(num => {
-  if (typeof num === 'number') return;
-  return num * 2;
-});
+// [1, 2, 3].map(num => {
+//   if (typeof num === 'number') // return;  ----> undefined
+//   return num * 2;
+// });
 // A: []
 // B: [null, null, null]
 // C: [undefined, undefined, undefined]
@@ -752,3 +757,215 @@ Answer: C
 // However, we don’t return a value. When we don’t return a value from the function, the function returns undefined. For every element in the array, the function block
 //  gets called, so for each element we return undefined.
 
+
+// ----------------------------------------------------
+// 51. What's the output?
+function getInfo(member, year) {
+  member.name = 'Lydia';
+  year = '1998';
+}
+
+const person = { name: 'Sarah' };
+const birthYear = '1997';
+
+getInfo(person, birthYear);
+
+console.log(person, birthYear);
+// A: { name: "Lydia" }, "1997"   ----> answer
+// B: { name: "Sarah" }, "1998"
+// C: { name: "Lydia" }, "1998"
+// D: { name: "Sarah" }, "1997"
+
+// Arguments are passed by value, unless their value is an object, then they're passed by reference. birthYear is passed by value, since it's a string, not an object. 
+// When we pass arguments by value, a copy of that value is created (see question 46).
+// The variable birthYear has a reference to the value "1997". The argument year also has a reference to the value "1997", 
+// but it's not the same value as birthYear has a reference to. When we update the value of year by setting year equal to "1998", 
+// we are only updating the value of year. birthYear is still equal to "1997".
+// The value of person is an object. The argument member has a (copied) reference to the same object. When we modify a property of the object member has a reference to, 
+// the value of person will also be modified, since they both have a reference to the same object. person's name property is now equal to the value "Lydia"
+
+
+// ----------------------------------------------------
+// 52. What's the output?
+function greeting() {
+  throw 'Hello world!';
+}
+
+function sayHi() {
+  try {
+    const data = greeting();
+    console.log('It worked!', data);
+  } catch (e) {
+    console.log('Oh no an error:', e);
+  }
+}
+
+sayHi();
+// A: It worked! Hello world!
+// B: Oh no an error: undefined
+// C: SyntaxError: can only throw Error objects
+// D: Oh no an error: Hello world!    ----> answer
+
+// With the throw statement, we can create custom errors. With this statement, you can throw exceptions. An exception can be a string, a number, a 
+// boolean or an object. In this case, our exception is the string 'Hello world!'.
+// With the catch statement, we can specify what to do if an exception is thrown in the try block. An exception is thrown: the string 'Hello world!'.
+//  e is now equal to that string, which we log. This results in 'Oh an error: Hello world!'.
+
+
+// ----------------------------------------------------
+// 53. What's the output?
+// function Car() {
+//   this.make = 'Lamborghini';
+//   return { make: 'Maserati' };
+// }
+
+// const myCar = new Car();
+// console.log(myCar.make);
+// A: "Lamborghini"
+// B: "Maserati"   ----> answer
+// C: ReferenceError
+// D: TypeError
+
+// When a constructor function is called with the new keyword, it creates an object and sets the this keyword to refer to that object. By default, if the constructor function 
+// doesn't explicitly return anything, it will return the newly created object.
+// In this case, the constructor function Car explicitly returns a new object with make set to "Maserati", which overrides the default behavior.
+//  Therefore, when new Car() is called, the returned object is assigned to myCar, resulting in the output being "Maserati"  when myCar.make is accessed.
+
+
+// ----------------------------------------------------
+// 54. What's the output?
+(() => {
+  let x = (y = 10);
+})();
+
+console.log(typeof x);
+console.log(typeof y);
+// A: "undefined", "number"   ----> answer
+// B: "number", "number"
+// C: "object", "number"
+// D: "number", "undefined"
+
+// let x = (y = 10); is actually shorthand for:
+
+// y = 10;
+// let x = y;
+// When we set y equal to 10, we actually add a property y to the global object (window in browser, global in Node). In a browser, window.y is now equal to 10.
+// Then, we declare a variable x with the value of y, which is 10. Variables declared with the let keyword are block scoped, they are only defined within the block 
+// they're declared in; the immediately invoked function expression (IIFE) in this case. When we use the typeof operator, the operand x is not defined: we are trying 
+// to access x outside of the block it's declared in. This means that x is not defined. Values who haven't been assigned a value or declared are of type "undefined".
+//  console.log(typeof x) returns "undefined".However, we created a global variable y when setting y equal to 10. This value is accessible anywhere in our code. y is defined, 
+//  and holds a value of type "number". console.log(typeof y) returns "number".
+
+
+// ----------------------------------------------------
+// 55. What's the output?
+class Dog {
+  constructor(name) {
+    this.name = name;
+  }
+}
+
+Dog.prototype.bark = function() {
+  console.log(`Woof I am ${this.name}`);
+};
+
+const pet = new Dog('Mara');
+
+pet.bark();
+
+delete Dog.prototype.bark;
+
+pet.bark();
+// A: "Woof I am Mara", TypeError   ----> answer 
+// B: "Woof I am Mara", "Woof I am Mara"
+// C: "Woof I am Mara", undefined
+// D: TypeError, TypeError
+
+// We can delete properties from objects using the delete keyword, also on the prototype. By deleting a property on the prototype, it is not available anymore 
+// in the prototype chain. In this case, the bark function is not available anymore on the prototype after delete Dog.prototype.bark, yet we still try to access it.
+// When we try to invoke something that is not a function, a TypeError is thrown. In this case TypeError: pet.bark is not a function, since pet.bark is undefined.
+
+
+// ----------------------------------------------------
+// 56. What's the outp ut?
+// const set = new Set([1, 1, 2, 3, 4]);
+
+// console.log(set);
+// A: [1, 1, 2, 3, 4]
+// B: [1, 2, 3, 4]
+// C: {1, 1, 2, 3, 4}
+// D: {1, 2, 3, 4}  ---> set return a object / collection answer
+
+// The Set object is a collection of unique values: a value can only occur once in a set.
+// We passed the iterable [1, 1, 2, 3, 4] with a duplicate value 1. Since we cannot have two of the same values in a set, one of them is removed. This results in {1, 2, 3, 4}.
+
+
+// ----------------------------------------------------
+// 57. What's the output?
+// counter.js
+// let counter = 10;
+// export default counter;
+// // index.js
+// import myCounter from './counter';
+
+// myCounter += 1;
+// console.log(myCounter);   ---> error 
+// A: 10
+// B: 11
+// C: Error    >>>> answer
+// D: NaN
+
+// An imported module is read-only: you cannot modify the imported module. Only the module that exports them can change its value.
+// When we try to increment the value of myCounter, it throws an error: myCounter is read-only and cannot be modified.
+
+
+// ----------------------------------------------------
+// 58. What's the output?
+// const name = 'Lydia';
+// age = 21;
+
+// console.log(delete name);    ---> false 
+// console.log(delete age);   ----> true 
+// A: false, true
+// B: "Lydia", 21
+// C: true, true
+// D: undefined, undefined
+
+// The delete operator returns a boolean value: true on a successful deletion, else it'll return false. However, variables declared with the var, 
+// const or let keyword cannot be deleted using the delete operator.
+// The name variable was declared with a const keyword, so its deletion is not successful: false is returned. When we set age equal to 21, 
+// we actually added a property called age to the global object. You can successfully delete properties from objects this way, also the global object, so delete age returns true.
+
+
+// ----------------------------------------------------
+// 59. What's the output?
+// const numbers = [1, 2, 3, 4, 5];
+// const [y] = numbers;
+
+// console.log(y);
+// A: [[1, 2, 3, 4, 5]]
+// B: [1, 2, 3, 4, 5]
+// C: 1   ----> answer 
+// D: [1]
+
+// We can unpack values from arrays or properties from objects through destructuring. For example:
+// [a, b] = [1, 2];
+// The value of a is now 1, and the value of b is now 2. What we actually did in the question, is:
+// [y] = [1, 2, 3, 4, 5];
+// This means that the value of y is equal to the first value in the array, which is the number 1. When we log y, 1 is returned.
+
+
+// ----------------------------------------------------
+// 60. What's the output?
+// const user = { name: 'Lydia', age: 21 };
+// const admin = { admin: true, ...user };
+
+// console.log(admin);
+// A: { admin: true, user: { name: "Lydia", age: 21 } }
+// B: { admin: true, name: "Lydia", age: 21 }
+// C: { admin: true, user: ["Lydia", 21] }
+// D: { admin: true }
+
+// It's possible to combine objects using the spread operator .... It lets you create copies of the key/value pairs of one object, and add them to another object. 
+// In this case, we create copies of the user object, and add them to the admin object. The admin object now contains the copied key/value pairs, which results 
+// in { admin: true, name: "Lydia", age: 21 }.
